@@ -20,7 +20,7 @@
                                 Manage Modules
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {% if user|is_in_group:'mng_pcb_type' %}
+                                {% if user|is_in_group:'mng_pcb_type' or user.is_superuser %}
                                     <li><a class="dropdown-item" href="{% url 'pcb_type_list' %}">PCB Types</a></li>
                                 {% endif %}
                             </ul>
