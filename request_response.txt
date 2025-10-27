@@ -1,0 +1,18 @@
+can you create a django app that connects to postgres. please use docker compose. also use git for version control. Call the app ModuleTrack
+
+####################################################################################
+
+  Your next steps would be to:
+   1. Create a superuser to access the Django admin interface:
+   1     docker-compose exec web python manage.py createsuperuser
+   2. Start developing your ModuleTrack app by editing the files in the
+      C:\Projects\DjangoApps\ModuleTracker\ModuleTrack directory.
+	  
+	  
+###################################################################################	 
+
+created superuser  admin/admin
+
+###################################################
+
+comment out the password restrictions
