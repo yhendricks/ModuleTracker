@@ -140,9 +140,14 @@ class PcbTypeDeleteView(PcbTypePermissionMixin, DeleteView):
             messages.success(self.request, f'PCB Type \'{self.object.name}\' deleted successfully!')
             self.object.delete()
             if request.htmx:
+                # Manually paginate the queryset for HTMX response
+                all_pcb_types = PcbType.objects.all().order_by('id')
+                paginator = Paginator(all_pcb_types, 10)
+                page_number = self.request.GET.get('page', 1)
+                page_obj = paginator.get_page(page_number)
                 response = render(self.request, 'pcb_type/partials/pcb_type_table.html', {
-                    'pcb_types': PcbType.objects.all(),
-                    'page_obj': PcbType.objects.all().order_by('id').paginate(page=1, per_page=self.paginate_by)
+                    'pcb_types': page_obj.object_list,
+                    'page_obj': page_obj
                 })
                 response['HX-Trigger'] = 'hideModal'
                 return response

@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#pcbTypeModal"
-                        hx-get="{% url 'pcb_type_create' %}" hx-target="#pcbTypeModal .modal-content">
+                        hx-get="{% url 'pcb_type_create' %}" hx-target="#pcbTypeModal .modal-content" hx-on::after-request="if(event.detail.successful) { pcbTypeModal.hide(); }">
                     Add PCB Type
                 </button>
 
@@ -43,7 +43,7 @@
 
     pcbTypeModalElement.addEventListener('hidden.bs.modal', function (event) {
         // Clear the content of the modal after it's hidden
-        document.getElementById('pcbTypeModal').querySelector('.modal-content').innerHTML = '';
+        pcbTypeModalElement.querySelector('.modal-content').innerHTML = '';
     });
 
     document.body.addEventListener('htmx:afterRequest', function (evt) {
