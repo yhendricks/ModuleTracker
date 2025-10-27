@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">PCB Types</h2>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#pcbTypeModal"
+                        hx-get="{% url 'pcb_type_create' %}" hx-target="#pcbTypeModal .modal-content">
+                    Add PCB Type
+                </button>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Filter by name or description"
+                           hx-get="{% url 'pcb_type_list' %}" hx-trigger="keyup changed delay:500ms, search"
+                           hx-target="#pcb-type-table-container" hx-swap="outerHTML" name="q">
+                </div>
+
+                <div id="pcb-type-table-container">
+                    {% include 'pcb_type/partials/pcb_type_table.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="pcbTypeModal" tabindex="-1" aria-labelledby="pcbTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Content loaded by HTMX -->
+        </div>
+    </div>
+</div>
+
+<script>
+    var pcbTypeModalElement = document.getElementById('pcbTypeModal');
+    var pcbTypeModal = new bootstrap.Modal(pcbTypeModalElement);
+
+    pcbTypeModalElement.addEventListener('hidden.bs.modal', function (event) {
+        // Clear the content of the modal after it's hidden
+        document.getElementById('pcbTypeModal').querySelector('.modal-content').innerHTML = '';
+    });
+
+    document.body.addEventListener('htmx:afterRequest', function (evt) {
+        const hxTrigger = evt.detail.xhr.getResponseHeader('HX-Trigger');
+        console.log('htmx:afterRequest event fired. HX-Trigger:', hxTrigger);
+
+        if (hxTrigger && hxTrigger.includes('hideModal')) {
+            console.log('Attempting to hide modal');
+            pcbTypeModal.hide();
+        }
+    });
+</script>
+{% endblock %}
