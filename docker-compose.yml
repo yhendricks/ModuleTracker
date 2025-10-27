@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=moduledb
+      - DB_USER=moduleuser
+      - DB_PASSWORD=modulepass
+      - DB_HOST=db
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=moduledb
+      - POSTGRES_USER=moduleuser
+      - POSTGRES_PASSWORD=modulepass
+
+volumes:
+  postgres_data:
