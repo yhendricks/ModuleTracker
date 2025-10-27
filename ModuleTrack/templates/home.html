@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Welcome, {{ user.username }}!</h2>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card text-center">
+            <div class="card-header">
+                <h2>Welcome, {{ user.username }}!</h2>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">You are logged in to Module Tracker</h5>
+                <p class="card-text">You can now start tracking your modules.</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
